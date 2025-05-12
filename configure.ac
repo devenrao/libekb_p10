@@ -40,6 +40,18 @@ AC_ARG_ENABLE([db-install],
 		       [Enable installation of attribute database]))
 AM_CONDITIONAL([BUILD_DB], [test "x$enable_db_install" = "xyes"])
 
+AC_LANG([C++])
+# Adding the required C++ version directly is not typically recommended
+# practice. However, Autotools does not support AX_CXX_COMPILE_STDCXX_23 or
+# AX_CXX_COMPILE_STDCXX for version 23.
+saved_CXXFLAGS=$CXXFLAGS
+CXXFLAGS="$saved_CXXFLAGS -std=c++23"
+AC_COMPILE_IFELSE([AC_LANG_PROGRAM([#include <expected>],
+                                   [std::expected<int, int> testObj;])],
+                  [saved_CXXFLAGS="$saved_CXXFLAGS -std=c++23"],
+                  [AC_MSG_ERROR([C++23 is not supported, but it is required])])
+CXXFLAGS=$saved_CXXFLAGS
+
 AC_PROG_CC
 AC_PROG_CXX
 AM_PROG_AS

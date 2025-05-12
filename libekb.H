@@ -4,6 +4,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <cstddef>
 
 #define LIBEKB_LOG_ERR 0
 #define LIBEKB_LOG_INF 1
@@ -201,4 +202,8 @@ void libekb_get_ffdc(FFDC &ffdc);
  */
 void libekb_get_sbe_ffdc(FFDC &ffdc, const sbeFfdcPacketType &ffdc_pkt,
 			 int chipPos, uint32_t sbeChipType);
+
+void libekb_parse_sbe_ffdc_pkt(uint32_t fapiRc,
+                  const std::vector<uint8_t>& blobData,
+                  int chipPos, uint32_t sbeChipType, FFDC&ffdc);
 #endif /* __LIBEKB_H__ */
